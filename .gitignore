@@ -45,3 +45,9 @@ dist/
 
 # IDEA project module file
 *.iml
+
+# Terraform
+**/.terraform/*
+*.pem
+*.key
+*.crt
