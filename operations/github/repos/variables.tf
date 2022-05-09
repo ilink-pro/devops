@@ -16,7 +16,7 @@ variable "backend-discord-webhook" {
   type = string
 }
 
-variable "frontend-discord-webhook" {
+variable "web-discord-webhook" {
   type = string
 }
 

@@ -1,0 +1,16 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: ilink
+  namespace: flux-system
+spec:
+  interval: 5m0s
+  timeout: 4m0s
+  ref:
+    branch: master
+  secretRef:
+    name: github-credentials
+  url: https://github.com/ilink-pro/web
+  ignore: |
+    .yarn

@@ -1,5 +1,5 @@
-resource "github_repository" "frontend" {
-  name = "frontend"
+resource "github_repository" "web" {
+  name = "web"
 
   visibility = "public"
   license_template = "bsd-3-clause"
@@ -20,11 +20,11 @@ resource "github_repository" "frontend" {
   }
 }
 
-resource "github_repository_webhook" "frontend" {
-  repository = github_repository.frontend.name
+resource "github_repository_webhook" "web" {
+  repository = github_repository.web.name
 
   configuration {
-    url          = var.frontend-discord-webhook
+    url          = var.web-discord-webhook
     content_type = "json"
     insecure_ssl = false
   }

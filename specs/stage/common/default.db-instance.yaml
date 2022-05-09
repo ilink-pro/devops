@@ -1,0 +1,22 @@
+apiVersion: kci.rocks/v1alpha1
+kind: DbInstance
+metadata:
+  name: default
+spec:
+  adminSecretRef:
+    Name: default-instance-admin-secret
+    Namespace: default
+  engine: postgres
+  generic:
+    host: db-postgresql
+    port: 5432
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: default-instance-admin-secret
+  namespace: default
+type: Opaque
+data:
+  user: cG9zdGdyZXMK
+  password: cGFzc3dvcmQK
