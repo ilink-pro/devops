@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: ory
+  namespace: flux-system
+spec:
+  url: https://k8s.ory.sh/helm/charts
+  interval: 1h0m0s
+  

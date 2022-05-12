@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: image-reflector-controller
+  namespace: flux-system
+  annotations:
+    iam.gke.io/gcp-service-account: flux-image-reflector-stage@youthink-dev.iam.gserviceaccount.com
