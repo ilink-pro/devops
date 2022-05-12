@@ -1,10 +1,10 @@
-resource "github_repository" "backend" {
-  name = "backend"
+resource "github_repository" "dsm" {
+  name = "dsm"
 
   visibility = "public"
   license_template = "bsd-3-clause"
 
-  homepage_url = "https://api.ilink.dev"
+  homepage_url = "https://dsm.ilink.dev"
 
   auto_init = true
 
@@ -20,11 +20,11 @@ resource "github_repository" "backend" {
   }
 }
 
-resource "github_repository_webhook" "backend" {
-  repository = github_repository.backend.name
+resource "github_repository_webhook" "dsm" {
+  repository = github_repository.dsm.name
 
   configuration {
-    url          = var.backend-discord-webhook
+    url          = var.web-discord-webhook
     content_type = "json"
     insecure_ssl = false
   }

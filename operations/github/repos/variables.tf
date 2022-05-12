@@ -12,7 +12,7 @@ variable "devops-discord-webhook" {
   type = string
 }
 
-variable "backend-discord-webhook" {
+variable "dsm-discord-webhook" {
   type = string
 }
 
