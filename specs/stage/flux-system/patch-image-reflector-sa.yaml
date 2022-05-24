@@ -4,4 +4,4 @@ metadata:
   name: image-reflector-controller
   namespace: flux-system
   annotations:
-    iam.gke.io/gcp-service-account: flux-image-reflector-stage@youthink-dev.iam.gserviceaccount.com
+    iam.gke.io/gcp-service-account: flux-image-reflector-stage@task-monit-1599295644751.iam.gserviceaccount.com
