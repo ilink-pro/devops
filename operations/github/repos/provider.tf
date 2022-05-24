@@ -1,9 +1,9 @@
 terraform {
   backend "remote" {
-    organization = "ilink"
+    organization = "ilink-pro"
 
     workspaces {
-      name = "github-repos"
+      name = "repos"
     }
   }
 }
