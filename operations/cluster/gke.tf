@@ -1,6 +1,7 @@
 module "gke" {
   source  = "terraform-google-modules/kubernetes-engine/google//modules/beta-public-cluster"
   version = "17.3.0"
+  kubernetes_version = "1.22"
 
   name       = var.environment
   project_id = data.google_client_config.default.project

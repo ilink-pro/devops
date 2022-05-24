@@ -15,7 +15,7 @@ resource "google_project_iam_member" "flux_image_reflector" {
 }
 
 locals {
-  flux_branch = "main"
+  flux_branch = "master"
   flux_path   = "specs/${var.environment}"
   known_hosts = "github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg="
   patches     = {
@@ -110,21 +110,21 @@ resource "kubernetes_secret" "main" {
 }
 
 resource "github_repository_file" "install" {
-  repository = "infrastructure"
+  repository = "devops"
   file       = data.flux_install.main.path
   content    = data.flux_install.main.content
   branch     = local.flux_branch
 }
 
 resource "github_repository_file" "sync" {
-  repository = "infrastructure"
+  repository = "devops"
   file       = data.flux_sync.main.path
   content    = data.flux_sync.main.content
   branch     = local.flux_branch
 }
 
 resource "github_repository_file" "kustomize" {
-  repository          = "infrastructure"
+  repository          = "devops"
   file                = data.flux_sync.main.kustomize_path
   branch              = local.flux_branch
   overwrite_on_create = true
@@ -140,14 +140,14 @@ patches:
   patch: |-
     - op: add
       path: /spec/template/spec/containers/0/args/-
-      value: --gcp-autologin-for-gcr    
+      value: --gcp-autologin-for-gcr
 EOT
 }
 
 resource "github_repository_file" "patches" {
   for_each   = data.flux_sync.main.patch_file_paths
 
-  repository = "infrastructure"
+  repository = "devops"
   file       = each.value
   content    = local.patches[each.key]
   branch     = local.flux_branch

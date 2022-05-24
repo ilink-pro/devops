@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: private-gateway
+  namespace: ilink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: private-gateway
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: private-gateway
+    spec:
+      volumes:
+      containers:
+        - name: private-gateway
+          image: eu.gcr.io/task-monit-1599295644751/private-gateway-entrypoint:9b99962-1651772177027 # {"$imagepolicy": "flux-system:youthink-private-gateway"}
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          env:
+            - name: SERVICE_NAME
+              value: private-gateway
+            - name: VERIFICATION_SERVICE_URL
+              value: verification:50051

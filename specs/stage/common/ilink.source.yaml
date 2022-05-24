@@ -11,6 +11,6 @@ spec:
     branch: master
   secretRef:
     name: github-credentials
-  url: https://github.com/ilink-pro/web
+  url: https://github.com/ilink-pro/devops
   ignore: |
     .yarn
