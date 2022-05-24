@@ -152,3 +152,11 @@ resource "github_repository_file" "patches" {
   content    = local.patches[each.key]
   branch     = local.flux_branch
 }
+
+resource "github_repository_deploy_key" "main" {
+  title      = "flux-cluster-${var.environment}"
+
+  repository = "devops"
+  key        = tls_private_key.main.public_key_openssh
+  read_only  = true
+}
