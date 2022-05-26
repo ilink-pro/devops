@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h0m0s
-  path: ./gateway
+  path: ./specs/stage/web/gateway
   prune: true
   sourceRef:
     kind: GitRepository
