@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: private-gateway
+  namespace: istio-system
+spec:
+  secretName: private-gateway-ilink-tls
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  commonName: 'private-gateway.ilink.pw'
+  dnsNames:
+    - 'private-gateway.ilink.pw'
