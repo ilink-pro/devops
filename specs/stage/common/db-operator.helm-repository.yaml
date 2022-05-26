@@ -1,9 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: db-operator
-  namespace: flux-system
-spec:
-  url: https://kloeckner-i.github.io/db-operator/
-  interval: 1h0m0s
