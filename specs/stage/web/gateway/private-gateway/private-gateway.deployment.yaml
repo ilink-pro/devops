@@ -21,7 +21,7 @@ spec:
       volumes:
       containers:
         - name: private-gateway
-          image: eu.gcr.io/task-monit-1599295644751/private-gateway-entrypoint:9b99962-1651772177027 # {"$imagepolicy": "flux-system:youthink-private-gateway"}
+          image: eu.gcr.io/task-monit-1599295644751/ilink-gateway-private-gateway-entrypoint:2bcb49c-1653572226542
           imagePullPolicy: IfNotPresent
           resources:
             limits:
