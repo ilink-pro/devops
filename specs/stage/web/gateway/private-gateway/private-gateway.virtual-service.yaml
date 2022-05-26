@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: private-gateway
+  namespace: ilink
+spec:
+  hosts:
+    - 'private-gateway.ilink.pw'
+  gateways:
+    - private-gateway
+  http:
+    - route:
+        - destination:
+            host: private-gateway
+            port:
+              number: 3000
