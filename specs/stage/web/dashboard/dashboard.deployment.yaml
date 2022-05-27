@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+  namespace: ilink
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: eu.gcr.io/task-monit-1599295644751/ilink-dashboard-renderer-entrypoint
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          env:
+            - name: KRATOS_PUBLIC_URL
+              value: https://identity.ilink.pw
+            - name: SERVICE_NAME
+              value: dashboard

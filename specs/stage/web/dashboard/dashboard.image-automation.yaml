@@ -1,0 +1,23 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: ilink-dashboard
+  namespace: flux-system
+spec:
+  git:
+    commit:
+      author:
+        email: bot@i-link.pro
+        name: ilink-bot
+      messageTemplate: '[ci skip] update image'
+    checkout:
+      ref:
+        branch: master
+    push:
+      branch: master
+  sourceRef:
+    kind: GitRepository
+    name: ilink
+  interval: 1m0s
+  update:
+    strategy: Setters

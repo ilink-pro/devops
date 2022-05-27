@@ -1,0 +1,8 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: ilink-dashboard
+  namespace: flux-system
+spec:
+  image: eu.gcr.io/task-monit-1599295644751/ilink-dashboard-renderer-entrypoint
+  interval: 1m0s
