@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kratos-ilink
+  namespace: ilink
+spec:
+  hosts:
+    - 'identity.ilink.pw'
+  gateways:
+    - kratos-ilink
+  http:
+    - route:
+        - destination:
+            host: ilink-kratos-public
+            port:
+              number: 4433

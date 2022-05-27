@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: accounts
+  namespace: istio-system
+spec:
+  secretName: ilink-accounts-tls
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  commonName: 'accounts.ilink.pw'
+  dnsNames:
+    - 'accounts.ilink.pw'

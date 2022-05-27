@@ -1,0 +1,172 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ilink-kratos
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: kratos
+      sourceRef:
+        kind: HelmRepository
+        name: ory
+      version: 0.19.3
+  interval: 1h0m0s
+  releaseName: ilink-kratos
+  targetnamespace: ilink
+  values:
+    job:
+      annotations:
+        sidecar.istio.io/inject: 'false'
+
+    service:
+      public:
+        port: 4433
+      admin:
+        port: 4434
+
+    image:
+      repository: oryd/kratos
+      tag: v0.8.2-alpha.1
+
+    kratos:
+      autoMigrate: true
+
+      identitySchemas:
+        'identity.default.schema.json': |
+          {
+            "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "title": "Person",
+            "type": "object",
+            "properties": {
+              "traits": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "title": "E-Mail",
+                    "minLength": 3,
+                    "ory.sh/kratos": {
+                      "credentials": {
+                        "password": {
+                          "identifier": true
+                        }
+                      },
+                      "verification": {
+                        "via": "email"
+                      },
+                      "recovery": {
+                        "via": "email"
+                      }
+                    }
+                  }
+                },
+                "required": ["email"],
+                "additionalProperties": false
+              }
+            }
+          }
+      config:
+        version: v0.7.6-alpha.1
+
+        log:
+          level: debug
+
+        hashers:
+          argon2:
+            parallelism: 1
+            memory: 128MB
+            iterations: 2
+            salt_length: 16
+            key_length: 16
+
+        selfservice:
+          default_browser_return_url: https://accounts.ilink.pw/
+
+          whitelisted_return_urls:
+            - https://accounts.ilink.pw/auth/registration/complete
+            - https://accounts.ilink.pw/auth/verification/complete
+            - https://accounts.ilink.pw/auth/login/complete
+            - https://accounts.ilink.pw/
+            - https://accounts.ilink.pw/auth/post-logout
+            - https://dashboard.ilink.pw/
+            - https://ilink.pw
+
+          flows:
+
+            logout:
+              after:
+                default_browser_return_url: https://accounts.ilink.pw/auth/login
+
+            registration:
+              ui_url: https://accounts.ilink.pw/auth/registration
+              after:
+                password:
+                  hooks:
+                    - hook: session
+
+            verification:
+              enabled: true
+              ui_url: https://accounts.ilink.pw/auth/verification
+              after:
+                default_browser_return_url: https://accounts.ilink.pw/
+
+            login:
+              ui_url: https://accounts.ilink.pw/auth/login
+
+            recovery:
+              enabled: true
+              ui_url: https://accounts.ilink.pw/auth/recovery
+
+            error:
+              ui_url: https://accounts.ilink.pw/auth/error
+
+          methods:
+            link:
+              enabled: true
+            password:
+              enabled: true
+            profile:
+              enabled: true
+            oidc:
+              enabled: true
+            totp:
+              enabled: true
+              config:
+                issuer: ilink.pw
+
+        secrets:
+          default:
+            - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+          cookie:
+            - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+
+        serve:
+          public:
+            base_url: https://identity.ilink.pw/
+            cors:
+              enabled: true
+              allowed_origins:
+                - https://ilink.pw
+                - https://*.ilink.pw
+                - https://*.preview.ilink.pw
+                - https://*.local.ilink.pw
+
+        session:
+          cookie:
+            domain: .ilink.pw
+          whoami:
+            required_aal: aal1
+
+        identity:
+          default_schema_url: file:///etc/config/identity.default.schema.json
+
+        courier:
+          smtp:
+            connection_uri: smtps://AKIA2WVG45RELJFUE37P:BMIC00QbNKtidPxNZXdL2TpTcypMJ5eTTAY2zqGF7Fmy@email-smtp.eu-central-1.amazonaws.com:465/?skip_ssl_verify=true&legacy_ssl=true
+            from_address: service@i-link.pro
+
+        dsn: 'postgres://ilink-kratos:9cM49GT3JRl-M6Bvk_9KWi4m-0@db-postgresql.default.svc.cluster.local:5432/ilink-kratos?sslmode=disable'
