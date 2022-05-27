@@ -1,0 +1,13 @@
+---
+apiVersion: 'kci.rocks/v1alpha1'
+kind: Database
+metadata:
+  name: kratos
+  namespace: ilink
+spec:
+  secretName: kratos-db-credentials
+  instance: default
+  deletionProtected: false
+  backup:
+    enable: false
+    cron: '0 0 * * *'
